@@ -1,0 +1,68 @@
+# =====================
+# Global ignores
+# =====================
+.DS_Store
+.env
+*.env
+*.log
+__pycache__/
+*.pyc
+
+# =====================
+# Node (frontend)
+# =====================
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.parcel-cache/
+/frontend/.turbo/
+/frontend/.next/
+/frontend/.eslintcache
+
+# TypeScript build
+/frontend/*.tsbuildinfo
+
+# Vite/React/TS artifacts
+/frontend/.cache/
+/frontend/coverage/
+/frontend/.storybook/
+/frontend/storybook-static/
+/frontend/public/build/
+
+# Local IDE/editor settings
+/frontend/.idea/
+/frontend/.vscode/
+.vscode/
+
+# =====================
+# Python (backend)
+# =====================
+/backend/__pycache__/
+/backend/*.py[cod]
+/backend/*.sqlite3
+/backend/instance/
+/backend/.pytest_cache/
+/backend/.mypy_cache/
+/backend/.venv/
+/backend/venv/
+/backend/env/
+/backend/*.db
+/backend/.coverage
+/backend/coverage.xml
+/backend/htmlcov/
+
+# Flask / development files
+/backend/.flaskenv
+/backend/.env
+/backend/.env.*
+
+# Pipenv / poetry / pip-tools
+/backend/Pipfile.lock
+/backend/poetry.lock
+/backend/requirements*.txt
+
+# =====================
+# OS-specific
+# =====================
+Thumbs.db
+ehthumbs.db
