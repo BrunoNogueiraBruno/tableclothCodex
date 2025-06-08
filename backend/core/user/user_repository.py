@@ -31,9 +31,10 @@ class UserRepository:
                 db.session.add(user)
                 db.session.commit()
                 return user
-            except IntegrityError:
+
+            except IntegrityError as e:
                 db.session.rollback()
-                raise ValueError("Username or Email already exists")
+                raise ValueError("Error creating user")
 
 
     def edit_user(self, user, data):

@@ -44,7 +44,6 @@ def admin_required(f):
     def decorated_function(*args, **kwargs):
         user_id = session.get("user")
         user = user_service.list_user_by_id(user_id)
-        print(user)
 
         if not user or not user.is_admin():
             return jsonify({"error": "Forbidden"}), 403
@@ -88,6 +87,7 @@ def set_role():
 
 @app.route('/user', methods=['POST'])
 @login_required
+@admin_required
 def create_user():
     data = request.get_json()
 
@@ -98,15 +98,12 @@ def create_user():
         return jsonify({'error': f'Missing required fields: {", ".join(missing_fields)}'}), 400
 
     try:
-        role = data.get('role')
-
         user = user_service.create_user(
             data['username'],
             data['first_name'],
             data['last_name'],
             data['password'],
-            data['email'],
-            role
+            data['email']
         )
 
         return jsonify(user.to_dict()), 200

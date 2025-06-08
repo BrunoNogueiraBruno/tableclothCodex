@@ -12,7 +12,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   try {
     const auth = useAuth()
   const { isLoading, error } = auth
-  if (isLoading) return <p>Carregando...</p>
+  if (isLoading) return "Loading..."
 
   if (error || typeof auth.data === "undefined") {
     throw(error)
@@ -21,7 +21,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   console.log(auth.data)
   return (
     <ProtectedContextProvider user={auth.data.user} >
-      <div className='flex h-screen w-screen flex-col bg-gray-100 text-gray-900'>
+      <div className="flex min-h-screen w-screen flex-col bg-gray-100 text-gray-900">
       <Header />
       {children}
       </div>

@@ -33,6 +33,4 @@ class User(db.Model):
         }
 
     def is_admin(self):
-        print(self.role)
-        print(self.role == "admin")
         return self.role == "admin"

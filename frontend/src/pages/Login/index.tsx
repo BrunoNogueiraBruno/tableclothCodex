@@ -12,7 +12,7 @@ import { useMediaQuery } from '@mui/material'
 import type { IUser } from '../../utils/types'
 
 interface Form {
-  identifier: string
+  identifier: string,
   password: string
 }
 

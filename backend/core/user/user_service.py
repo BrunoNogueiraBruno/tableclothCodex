@@ -7,7 +7,8 @@ class UserService:
         self.repository = UserRepository()
 
 
-    def create_user(self, username, first_name, last_name, password, email, role="user"):
+    def create_user(self, username, first_name, last_name, password, email):
+        role = "user"
         hashed_password = generate_password_hash(password)
         user = User(username, first_name, last_name, hashed_password, email, role)
         return self.repository.set_user(user)
