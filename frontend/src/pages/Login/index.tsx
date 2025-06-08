@@ -7,6 +7,7 @@ import { login } from '../../services/auth'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import Logo from '../../components/Logo'
+import { useSnackbar } from 'notistack'
 
 interface TimeResponse {
   time: string
@@ -29,7 +30,9 @@ function Login() {
   const [errors, setErrors] = useState<{ identifier?: string; password?: string }>({})
   const [bgImage, setBgImage] = useState('/bg/02.jpg')
 
-  const { mutate, error, isLoading } = useMutation<TimeResponse, Error, Form>({
+  const { enqueueSnackbar } = useSnackbar()
+
+  const { mutate, error } = useMutation<TimeResponse, Error, Form>({
     mutationFn: login,
   })
 
@@ -43,23 +46,23 @@ function Login() {
           navigate('/')
         },
         onError: (error) => {
-          console.error('Login error:', error)
+          console.error(`Authentication error: ${error}`)
+          enqueueSnackbar("Authentication failed", {variant:"error"})
+
           throw error
         },
       })
     } catch (validationError) {
+      console.error(`Login error: ${validationError}`)
+
       if (validationError instanceof yup.ValidationError) {
         const errs: { [key: string]: string } = {}
         validationError.inner.forEach(err => {
           if (err.path) errs[err.path] = err.message
         })
         setErrors(errs)
-      } else {
-        if ('status' in validationError && validationError.status === 401) {
-        setErrors({ identifier: 'Usuário ou senha incorretos', password: 'Usuário ou senha incorretos' })
-      } else {
-        console.error(validationError)
-      }
+
+        return
       }
     }
   }
@@ -78,9 +81,6 @@ function Login() {
     }
   }, [])
 
-  if (isLoading) return <p>Carregando...</p>
-  if (error) return <p>Erro: {error.message}</p>
-
   return (
     <div
       className="relative flex w-screen h-screen justify-center items-center bg-cover"
@@ -88,8 +88,13 @@ function Login() {
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-0 backdrop-blur-xs" />
 
-      <section className="relative z-10 flex flex-col gap-4 w-fit bg-white/90 h-fit rounded-lg px-8 py-10 items-center shadow-lg">
+      <section className="relative z-10 flex flex-col gap-6 w-fit bg-white/90 h-fit rounded-lg px-8 py-10 items-center shadow-lg">
         <Logo showTitle />
+
+        <form
+          onSubmit={(e) =>{e.preventDefault(); handleLogin(form)}}
+          className="flex flex-col gap-3"
+        >
         <Input
           label="Username or email"
           value={form.identifier}
@@ -106,11 +111,12 @@ function Login() {
         {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
         <Button
           variant="contained"
-          onClick={() => handleLogin(form)}
+          type="submit"
           disabled={Object.values(form).some((value) => !value)}
         >
           Login
         </Button>
+        </form>
       </section>
     </div>
   )

@@ -1,13 +1,29 @@
 import uuid
+import os
+
 from flask import Flask, jsonify, request, session
+from dotenv import load_dotenv
 from flask_cors import CORS
 
 from core.user.user_service import UserService
 from core.login.login import Login
 from core.login.login_service import LoginService
+from db import db
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "123456"
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+
+db.init_app(app)
+
+with app.app_context():
+    from core.user.user import User
+    print("arroz")
+    db.create_all()
+
 CORS(app, supports_credentials=True)
 
 user_service = UserService()
@@ -16,8 +32,8 @@ login_service = LoginService()
 @app.route('/list-users', methods=['GET'])
 def list_users():
     users = user_service.list_users()
-    return jsonify([user.__dict__ for user in users]), 200
-
+    users_dict = [user.to_dict() for user in users]  # transforma cada User em dict
+    return jsonify(users_dict), 200
 
 @app.route('/create-user', methods=['POST'])
 def create_user():
@@ -38,10 +54,7 @@ def create_user():
             data['email']
         )
 
-        user_data = user.__dict__.copy()
-        user_data.pop('password', None)
-
-        return jsonify(user_data), 201
+        return jsonify(user.to_dict()), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 400
@@ -57,14 +70,14 @@ def login():
     login = Login(data['identifier'], data['password'])
 
     try:
-        session["user"] = data["identifier"]
         user = login_service.authenticate(login)
-        user_data = user.__dict__.copy()
-        user_data.pop("password", None)
-        return jsonify(user_data), 200
+        session["user"] = user.id
+
+        return jsonify(user.to_dict()), 200
 
     except ValueError as e:
         return jsonify({"error": str(e)}), 401
+
 
 
 @app.route("/logout", methods=["POST"])

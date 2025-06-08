@@ -1,5 +1,6 @@
 from core.user.user import User
 from core.user.user_repository import UserRepository
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class UserService:
     def __init__(self):
@@ -8,7 +9,8 @@ class UserService:
 
     def create_user(self, username, first_name, last_name, password, email):
         role = "user"
-        user = User(username, first_name, last_name, password, email, role)
+        hashed_password = generate_password_hash(password)
+        user = User(username, first_name, last_name, hashed_password, email, role)
         return self.repository.set_user(user)
 
 

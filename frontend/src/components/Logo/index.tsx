@@ -9,7 +9,7 @@ function Logo({ showTitle = false }: LogoProps) {
     <div className="flex w-full flex-col items-center text-center">
       {showTitle && (
         <h1 className="font-semibold text-gray-900 text-left">
-            <div>Tablecloth</div><div>Codex</div>
+            <div>Tablecloth</div><div>Index</div>
         </h1>
       )}
       <SVGLogo className="h-25 w-auto text-gray-900" />

@@ -3,7 +3,7 @@ import baseApi from "../services";
 
 export function useAuth() {
   return useQuery<boolean, Error>({
-  queryKey: ['me'],
+  queryKey: ['info'],
   queryFn: async () => {
     const { data } = await baseApi.get('/info');
     return data.authenticated;

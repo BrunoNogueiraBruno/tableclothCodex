@@ -7,7 +7,7 @@ function Button(props: IButtonProps) {
   return (
     <_Button
       {...rest}
-      className={`w-60 ${className}`}
+      className={`w-60 h-10 ${className}`}
       color="primary"
     />
   );
