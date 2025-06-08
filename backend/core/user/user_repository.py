@@ -1,5 +1,5 @@
 from core.user.user import User
-from db import db
+from core.extensions import db
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import or_
 

@@ -65,7 +65,6 @@ function NewUserForm() {
   const { mutate } = useMutation<IUser, Error, IUser>({
   mutationFn: createUser,
   onSuccess: () => {
-    enqueueSnackbar("New user created", { variant: "success" });
     refetch()
     setForm(initialForm)
     setAccordionExpanded(false)

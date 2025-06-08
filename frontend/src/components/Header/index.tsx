@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom"
 
 import Logo from "../Logo"
-import baseApi from "../../services"
 import { Accordion, AccordionDetails, AccordionSummary, useMediaQuery } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu'
+import { logut } from "../../services/auth"
 
 function Header() {
   const navigate = useNavigate()
@@ -11,7 +11,7 @@ function Header() {
   const isMobile = useMediaQuery('(max-width:1023px)')
 
   const handleLogout = async () => {
-    await baseApi.post("/logout", null, { withCredentials: true })
+    await logut
     navigate("/login")
   }
 
