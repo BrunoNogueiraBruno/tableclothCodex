@@ -36,6 +36,24 @@ class UserRepository:
                 raise ValueError("Username or Email already exists")
 
 
+    def edit_user(self, user, data):
+        if not user:
+            raise ValueError("User not found")
+
+        for key, value in data.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+
+            db.session.rollback()
+            raise ValueError("Username or Email already exists")
+
+        return user
+
+
     def list_all_users(self):
         return User.query.all()
         

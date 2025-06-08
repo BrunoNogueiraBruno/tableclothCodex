@@ -9,10 +9,7 @@ import Input from '../../components/Input'
 import Logo from '../../components/Logo'
 import { useSnackbar } from 'notistack'
 import { useMediaQuery } from '@mui/material'
-
-interface TimeResponse {
-  time: string
-}
+import type { IUser } from '../../utils/types'
 
 interface Form {
   identifier: string
@@ -27,15 +24,14 @@ const schema = yup.object().shape({
 function Login() {
   const isMounted = useRef(true)
   const navigate = useNavigate()
+  const isMobile = useMediaQuery('(max-width:1023px)')
+  const { enqueueSnackbar } = useSnackbar()
+
   const [form, setForm] = useState<Form>({ identifier: '', password: '' })
   const [errors, setErrors] = useState<{ identifier?: string; password?: string }>({})
   const [bgImage, setBgImage] = useState('/bg/02.jpg')
 
-  const isMobile = useMediaQuery('(max-width:1023px)')
-
-  const { enqueueSnackbar } = useSnackbar()
-
-  const { mutate } = useMutation<TimeResponse, Error, Form>({
+  const { mutate } = useMutation<IUser[], Error, Form>({
     mutationFn: login,
   })
 
