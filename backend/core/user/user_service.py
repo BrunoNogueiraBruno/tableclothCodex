@@ -16,3 +16,7 @@ class UserService:
 
     def list_users(self):
         return self.repository.list_all_users()
+
+
+    def list_user_by_id(self, id):
+        return self.repository.search_user_by_id(id)

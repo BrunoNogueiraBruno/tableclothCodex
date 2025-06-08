@@ -35,11 +35,14 @@ class UserRepository:
                 db.session.rollback()
                 raise ValueError("Username or Email already exists")
 
+
     def list_all_users(self):
         return User.query.all()
+        
 
-    def search_by_username(self, username):
-        return User.query.filter_by(username=username).first()
+    def search_user_by_id(self, id):
+        return User.query.filter(User.id == id).first()
+        
 
     def search_user(self, identifier):
         return User.query.filter(

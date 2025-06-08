@@ -1,21 +1,32 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth'
 import type { ReactNode } from 'react';
+import { ProtectedContextProvider } from '../../context/ProtectedContext';
+import Header from '../Header';
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { data: isAuthenticated, isLoading, error } = useAuth();
+  try {
+    const auth = useAuth()
+  const { isLoading, error } = auth
+  if (isLoading) return <p>Carregando...</p>
 
-  if (isLoading) return <p>Carregando...</p>;
-
-  if (error || !isAuthenticated) {
-    // Se não está autenticado, redireciona para login
-    return <Navigate to="/login" replace />;
+  if (error || typeof auth.data === "undefined") {
+    throw(error)
   }
 
-  // Se autenticado, renderiza o conteúdo protegido
-  return <>{children}</>;
+  console.log(auth.data)
+  return (
+    <ProtectedContextProvider user={auth.data.user} >
+      <Header />
+      {children}
+    </ProtectedContextProvider>
+  )
+  } catch (error) {
+    console.error(error)
+    return <Navigate to="/login" replace />
+  }
 }

@@ -89,7 +89,8 @@ def logout():
 @app.route("/info", methods=['GET'])
 def me():
     if 'user' in session:
-        return {"authenticated": True, "user": session['user']}
+        current_user = user_service.list_user_by_id(session['user'])
+        return {"authenticated": True, "user": current_user.to_dict()}
     else:
         return {"authenticated": False}, 401
 
