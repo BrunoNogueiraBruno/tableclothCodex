@@ -23,6 +23,7 @@
     "notistack": "^3.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-responsive": "^10.0.1",
     "react-router-dom": "^7.6.2",
     "yup": "^1.6.1"
   },
