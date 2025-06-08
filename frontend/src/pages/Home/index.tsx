@@ -5,7 +5,7 @@ function Home() {
   console.log(user)
 
   return (
-    <div className="h-[90vh]">
+    <div className="">
       <h2>Hello {user.first_name} {user.last_name}</h2>
     </div>
   )

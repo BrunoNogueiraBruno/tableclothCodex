@@ -21,8 +21,10 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   console.log(auth.data)
   return (
     <ProtectedContextProvider user={auth.data.user} >
+      <div className='flex h-screen w-screen flex-col bg-gray-100 text-gray-900'>
       <Header />
       {children}
+      </div>
     </ProtectedContextProvider>
   )
   } catch (error) {

@@ -2,39 +2,79 @@ import { useNavigate } from "react-router-dom"
 
 import Logo from "../Logo"
 import baseApi from "../../services"
+import { Accordion, AccordionDetails, AccordionSummary, useMediaQuery } from "@mui/material"
+import MenuIcon from '@mui/icons-material/Menu'
 
 function Header() {
   const navigate = useNavigate()
+
+  const isMobile = useMediaQuery('(max-width:1023px)')
 
   const handleLogout = async () => {
     await baseApi.post("/logout", null, { withCredentials: true })
     navigate("/login")
   }
+
+  const navItems = [
+    <li
+        children="Home"
+        className="font-semibold cursor-pointer"
+        onClick={() => navigate("/")}
+    />,
+    <li
+        children="Users"
+        className="font-semibold cursor-pointer"
+        onClick={() => navigate("/users")}
+    />,
+    <li
+        children="Logout"
+        className="cursor-pointer"
+        onClick={handleLogout}
+    />
+  ]
+
+  const navBar = (
+    <nav>
+        <ol className="lg:flex lg:gap-4">
+            {navItems.map((item, index) => <div key={`nav-item-${index}`}>{item}</div>)}
+        </ol>
+    </nav>
+  )
+
     return (
         <header
-            className="w-screen h-20 bg-amber-100 text-gray-900 flex items-center p-4 shadow-xl justify-between"
+            className={`
+                p-2
+                lg:flex lg:justify-between lg:items-center lg:px-4 lg:bg-white lg:shadow-lg
+            `}
         >
-            
-            <div>
+            {isMobile ? (
+            <Accordion>
+                <AccordionSummary
+                expandIcon={<MenuIcon />}
+                aria-controls="mobile-header-bar-content"
+                id="mobile-header-bar-header"
+                >
                 <Logo
-                    size="60px"
+                    size="2rem"
+                    titleSize="1.4em"
+                    dir="row-reverse"
+                    showTitle={false}
+                />
+                </AccordionSummary>
+                <AccordionDetails children={navBar} />
+            </Accordion>
+            ) : (
+                <>
+                <Logo
+                    size="2rem"
                     titleSize="1.4em"
                     dir="row-reverse"
                     showTitle
                 />
-            </div>
-
-            <div className="flex gap-10">
-            <nav>
-                <div className="cursor-pointer">Users Management</div>
-            </nav>
-
-            <div
-                children="Logout"
-                className="font-semibold cursor-pointer"
-                onClick={handleLogout}
-            />
-            </div>
+                {navBar}
+                </>
+            )}
         </header>
     )
 }
