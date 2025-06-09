@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { listUsers, setUserRole, type SetUserRolePayload } from "../../services/users";
+import { deleteUser, listUsers, setUserRole, type SetUserRolePayload } from "../../services/users";
 import { useSnackbar } from "notistack";
 import type { IUser } from "../../utils/types";
 import { Card, MenuItem, type SelectChangeEvent } from "@mui/material";
 import Select from "../Select";
-import NewUserForm from "../NewUserForm";
+import NewUserForm from "../NewUserForm"
 
 function UserList() {
   const { enqueueSnackbar } = useSnackbar();
@@ -23,7 +23,19 @@ function UserList() {
   onError: () => {
     enqueueSnackbar("Failed to update role", { variant: "error" });
   },
-});
+})
+
+  const handleDeleteUser = async (id: number) => {
+    try {
+      await deleteUser(id)
+      enqueueSnackbar("User deleted", { variant: "success" })
+      refetch()
+
+    } catch (error) {
+      console.error(error)
+      enqueueSnackbar("Error deleting user", { variant: "error" });
+    }
+  }
 
   return (
       <section className={`
@@ -53,9 +65,17 @@ function UserList() {
               </Select>
               </div>
 
+              <div className="flex items-end justify-between">
               <div>
                 <div>{user.first_name} {user.last_name}</div>
                 <div>{user.email}</div>
+              </div>
+
+                <span
+                  className="cursor-pointer text-red-500"
+                  onClick={() => handleDeleteUser(user.id)}
+                  children="Delete"
+                  />
               </div>
           </Card>
         ))}

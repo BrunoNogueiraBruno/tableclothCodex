@@ -11,9 +11,17 @@ export async function listUsers(): Promise<IUser[]> {
 }
 
 export async function setUserRole({userId,role}: SetUserRolePayload): Promise<IUser> {
-    return await baseApi.put(`users/set-role?id=${userId}`, {role})
+    return await baseApi.put(`/users/set-role?id=${userId}`, {role})
 }
 
-export async function createUser(body: IUser): Promise<IUser> {
-    return await baseApi.post("users/create", body)
+export async function createUser(body: IUser) {
+    return await baseApi.post("/users", body)
+}
+
+export async function deleteUser(userId: number) {
+    return await baseApi.delete(`/users?id=${userId}`)
+}
+
+export async function deleteOwnUser() {
+    return await baseApi.delete(`/users/me`)
 }

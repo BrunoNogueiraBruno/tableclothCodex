@@ -67,3 +67,16 @@ class UserRepository:
         return User.query.filter(
             or_(User.username == identifier, User.email == identifier)
         ).first()
+
+    
+    def delete_user(self, user):
+        if not user:
+            raise ValueError("User not found")
+
+        try:
+            db.session.delete(user)
+            db.session.commit()
+
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            raise ValueError("Error deleting user")

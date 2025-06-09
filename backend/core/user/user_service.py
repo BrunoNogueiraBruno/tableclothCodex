@@ -14,9 +14,15 @@ class UserService:
         return self.repository.set_user(user)
 
     
-    def set_role(self, user, role):
+    def set_role(self, user_id, role):
+        user = self.list_user_by_id(user_id)
         data = {"role": role}
         return self.repository.edit_user(user,data)
+
+
+    def delete_user(self, user_id):
+        user = self.list_user_by_id(user_id)
+        return self.repository.delete_user(user)
 
 
     def list_users(self):
@@ -25,3 +31,10 @@ class UserService:
 
     def list_user_by_id(self, id):
         return self.repository.search_user_by_id(id)
+
+
+    def validate_user_data(self, data):
+        required_fields = ['username', 'first_name', 'last_name', 'password', 'email']
+        missing = [f for f in required_fields if f not in data]
+        if missing:
+            raise ValueError(f"Missing required fields: {', '.join(missing)}")

@@ -16,7 +16,11 @@ def create_app():
 
     db.init_app(app)
 
-    CORS(app, resources={r"/*": {"origins": os.getenv('REQUESTS_ALLOWED_ORIGIN')}}, supports_credentials=True)
+    CORS(app, resources={r"/*": {
+        "origins": os.getenv('REQUESTS_ALLOWED_ORIGIN'),
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        }}, supports_credentials=True)
 
     with app.app_context():
         from core.user.user import User

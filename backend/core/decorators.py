@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import session, jsonify, g
+from flask import session, jsonify, g, request
 from core.user.user_service import UserService
 
 
