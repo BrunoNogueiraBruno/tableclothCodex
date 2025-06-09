@@ -59,7 +59,6 @@ __pycache__/
 # Pipenv / poetry / pip-tools
 /backend/Pipfile.lock
 /backend/poetry.lock
-/backend/requirements*.txt
 
 # =====================
 # OS-specific
