@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteUser, listUsers, setUserRole, type SetUserRolePayload } from "../../services/users";
 import { useSnackbar } from "notistack";
 import type { IUser } from "../../utils/types";
-import { Card, MenuItem, type SelectChangeEvent } from "@mui/material";
+import { Card, MenuItem } from "@mui/material";
 import Select from "../Select";
 import NewUserForm from "../NewUserForm"
 
@@ -45,7 +45,7 @@ function UserList() {
           <Card
             variant="outlined"
             key={`user-listed-${user.id}`}
-            style={{borderRight: `4px solid ${user.role === "admin" ? "red" : "transparent"}`}}
+            style={{borderRight: `4px solid ${user?.role === "admin" ? "red" : "transparent"}`}}
             className={`
               p-2 flex flex-col
             `}
@@ -54,7 +54,7 @@ function UserList() {
               <div children={user.username} className="font-bold" />
               <Select
                 value={user.role}
-                onChange={(e: SelectChangeEvent<string>) => {
+                onChange={(e) => {
                   const role = e.target.value as "admin" | "user"
                   mutateRole({ userId: user.id, role });
                 }}

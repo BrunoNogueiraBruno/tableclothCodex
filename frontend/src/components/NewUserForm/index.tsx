@@ -1,25 +1,14 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
-import type { IUser } from "../../utils/types";
+import type { IUser, TNewUserForm, NewUserFormErrors } from "../../utils/types";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { createUser, listUsers } from "../../services/users";
 import Input from "../Input";
 import * as yup from "yup"
 
 import AddIcon from "@mui/icons-material/Add"
-import { useState } from "react";
+import { useState, type ChangeEvent, type SyntheticEvent } from "react";
 import Button from "../Button";
-
-interface Form {
-  username: string,
-  password: string,
-  email: string,
-  first_name: string,
-  last_name: string,
-  confirmPassword: string
-}
-
-type FormErrors = Partial<Form>
 
 const schema = yup.object({
   username: yup
@@ -58,11 +47,11 @@ const initialForm = {username: "", password: "", email:"", first_name:"", last_n
 function NewUserForm() {
   const { enqueueSnackbar } = useSnackbar()
   const { refetch } = useQuery({queryKey: ['users'], queryFn: listUsers})
-  const [form, setForm] = useState<Form>(initialForm)
-  const [errors, setErrors] = useState<FormErrors>({})
+  const [form, setForm] = useState<TNewUserForm>(initialForm)
+  const [errors, setErrors] = useState<NewUserFormErrors>({})
   const [accordionExpanded,setAccordionExpanded] = useState<boolean>(false)
 
-  const { mutate } = useMutation<IUser, Error, IUser>({
+  const { mutate } = useMutation<IUser, Error, TNewUserForm>({
   mutationFn: createUser,
   onSuccess: () => {
     refetch()
@@ -105,12 +94,12 @@ const handleCreateUser = async () => {
     }
 }
 
-const handleFormChange=(e:any) => {
+const handleFormChange=(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const {value,name} = e.target
     setForm({...form, [name]:value})
 }
 
-const handleAccordionToggle = (_: any, isExpanded: boolean) => {
+const handleAccordionToggle = (_event: SyntheticEvent, isExpanded: boolean) => {
     setAccordionExpanded(isExpanded)
     if (!isExpanded) {
       setForm(initialForm)

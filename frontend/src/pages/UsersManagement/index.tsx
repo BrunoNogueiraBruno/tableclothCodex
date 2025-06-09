@@ -4,6 +4,7 @@ import { useSnackbar } from "notistack"
 import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { listUsers } from "../../services/users"
+import type { IUser } from "../../utils/types"
 
 function UsersManagement() {
   const { enqueueSnackbar } = useSnackbar()
@@ -11,16 +12,20 @@ function UsersManagement() {
   const {
     isLoading,
     refetch,
-  } = useQuery({
+    error,
+  } = useQuery<{ data: IUser[] }, Error>({
     queryKey: ["users"],
     queryFn: listUsers,
-    onError: (err) => {
-      console.error(err)
-      enqueueSnackbar("Error retrieving users", { variant: "error" });
-    },
     staleTime: 0,
     refetchOnWindowFocus: false,
   })
+
+  useEffect(() => {
+    if (error) {
+      console.error(error)
+      enqueueSnackbar("Error retrieving users", { variant: "error" });
+    }
+  }, [error, enqueueSnackbar])
 
   useEffect(() => {
     refetch()
