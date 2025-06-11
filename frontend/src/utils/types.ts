@@ -22,3 +22,13 @@ export type TNewUserForm = {
 }
 
 export type NewUserFormErrors = Partial<TNewUserForm>
+
+export type IProfileContact = {
+  plataform: string,
+  name: string,
+  url: string
+}
+
+export type IProfile = {
+  contact: IProfileContact[]
+}

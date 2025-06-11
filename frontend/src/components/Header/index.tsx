@@ -1,45 +1,56 @@
 import { useNavigate } from "react-router-dom"
 
 import Logo from "../Logo"
-import { Accordion, AccordionDetails, AccordionSummary, useMediaQuery } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, useMediaQuery } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu'
 import { logut } from "../../services/auth"
+import { useState, type SyntheticEvent } from "react"
 
 function Header() {
+    const [expand, setExpand] = useState(false)
   const navigate = useNavigate()
 
   const isMobile = useMediaQuery('(max-width:1023px)')
 
   const handleLogout = async () => {
-    await logut
+    await logut()
     navigate("/login")
+  }
+
+  const handleNavigate = (path:string) => {
+    navigate(path)
+    setExpand(false)
   }
 
   const navItems = [
     <li
         children="Home"
-        className="font-semibold cursor-pointer"
-        onClick={() => navigate("/")}
+        className="font-semibold cursor-pointer h-12 flex items-center"
+        onClick={() => handleNavigate("/")}
     />,
     <li
         children="Users"
-        className="font-semibold cursor-pointer"
-        onClick={() => navigate("/users")}
+        className="font-semibold cursor-pointer h-12 flex items-center"
+        onClick={() => handleNavigate("/users")}
     />,
     <li
         children="Logout"
-        className="cursor-pointer"
+        className="cursor-pointer h-12 flex items-center text-[.9em]"
         onClick={handleLogout}
     />
   ]
 
   const navBar = (
     <nav>
-        <ol className="lg:flex lg:gap-4">
+        <ol className="lg:flex lg:gap-4 text-2xl">
             {navItems.map((item, index) => <div key={`nav-item-${index}`}>{item}</div>)}
         </ol>
     </nav>
   )
+
+    const handleAccordionToggle = (_event: SyntheticEvent, isExpanded: boolean) => {
+      setExpand(isExpanded)
+    }
 
     return (
         <header
@@ -49,7 +60,7 @@ function Header() {
             `}
         >
             {isMobile ? (
-            <Accordion>
+            <Accordion expanded={expand} onChange={handleAccordionToggle}>
                 <AccordionSummary
                 expandIcon={<MenuIcon />}
                 aria-controls="mobile-header-bar-content"
@@ -62,7 +73,16 @@ function Header() {
                     showTitle={false}
                 />
                 </AccordionSummary>
-                <AccordionDetails children={navBar} />
+                <AccordionDetails>
+                    <div className="flex justify-between p-2">
+                        {navBar}
+                        <Avatar
+                            children="B"
+                            sx={{ width: 70, height: 70 }}
+                            onClick={() => handleNavigate("/profile")}
+                        />
+                    </div>
+                </AccordionDetails>
             </Accordion>
             ) : (
                 <>
