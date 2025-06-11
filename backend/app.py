@@ -1,6 +1,5 @@
 import os
-
-from flask import Flask
+from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
 from core.extensions import db
@@ -17,10 +16,20 @@ def create_app():
     db.init_app(app)
 
     CORS(app, resources={r"/*": {
-        "origins": [os.getenv('REQUESTS_ALLOWED_ORIGIN')],
+        "origins": [os.getenv("REQUESTS_ALLOWED_ORIGIN")],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
-        }}, supports_credentials=True)
+    }}, supports_credentials=True)
+
+    @app.before_request
+    def handle_preflight():
+        if request.method == 'OPTIONS':
+            response = app.make_response('')
+            response.headers['Access-Control-Allow-Origin'] = os.getenv("REQUESTS_ALLOWED_ORIGIN", "*")
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+            return response, 204
 
     with app.app_context():
         from core.user.user import User
@@ -28,7 +37,6 @@ def create_app():
 
     register_blueprints(app)
     return app
-
 
 app = create_app()
 
