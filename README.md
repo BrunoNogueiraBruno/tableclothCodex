@@ -19,6 +19,7 @@
 * DotEnv
 * SQLAlchemy
 * SQLite
+* Postgress
   
 ## Background images
 
