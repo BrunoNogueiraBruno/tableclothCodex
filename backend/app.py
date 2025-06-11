@@ -8,6 +8,7 @@ from core.routes import register_blueprints
 
 def create_app():
     load_dotenv()
+    print("CORS ORIGIN:", os.getenv("REQUESTS_ALLOWED_ORIGIN"))
 
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -17,7 +18,8 @@ def create_app():
     db.init_app(app)
 
     CORS(app, resources={r"/*": {
-        "origins": os.getenv('REQUESTS_ALLOWED_ORIGIN'),
+        "origins": "*",
+        # "origins": [os.getenv('REQUESTS_ALLOWED_ORIGIN')],
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
         }}, supports_credentials=True)
