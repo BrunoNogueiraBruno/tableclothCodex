@@ -1,5 +1,5 @@
 import React from "react";
-import type { TextFieldProps } from "@mui/material"
+import type { SvgIconProps, TextFieldProps } from "@mui/material"
 
 export type IInputProps = TextFieldProps & {
   label?: string;
@@ -8,4 +8,6 @@ export type IInputProps = TextFieldProps & {
   value: any;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  minimal?:boolean,
+  Icon?: React.ComponentType<SvgIconProps>
 }

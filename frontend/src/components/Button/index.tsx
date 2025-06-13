@@ -6,9 +6,9 @@ function Button(props: IButtonProps) {
 
   return (
     <_Button
-      {...props}
-      className={`w-60 ${className}`}
-      color="primary"
+    {...props}
+    className={`w-60 ${className}`}
+    color="primary"
     />
   );
 }

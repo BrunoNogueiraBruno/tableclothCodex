@@ -1,5 +1,5 @@
 import baseApi from "."
-import type { IUser } from "../utils/types";
+import type { IUser } from "../utils/types"
 
 export interface Form {
   identifier: string;

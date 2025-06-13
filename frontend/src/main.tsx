@@ -8,7 +8,6 @@ import { createTheme, ThemeProvider } from '@mui/material';
 
 const queryClient = new QueryClient();
 
-
 const theme = createTheme({
   palette: {
     primary: {
