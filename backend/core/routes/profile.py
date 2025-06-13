@@ -28,8 +28,6 @@ def set_profile():
         user_id = curr_user.id
 
         data = request.get_json()
-        print("Arroz")
-        print(data)
 
         profile_service.validate_profile_data(data)
         profile = profile_service.set_profile(user_id,data)
@@ -37,5 +35,4 @@ def set_profile():
         return jsonify(profile.to_dict()), 200
 
     except Exception as e:
-        print("Erro:", e)
         return jsonify({"error": "Unexpected error"}), 500

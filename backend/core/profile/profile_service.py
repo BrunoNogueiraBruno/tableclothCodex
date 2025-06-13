@@ -1,3 +1,4 @@
+import json
 from core.profile.profile_repository import ProfileRepository
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -7,7 +8,6 @@ class ProfileService:
 
 
     def get_profile(self, user_id):
-        print(user_id)
         data = self.repository.get_profile_by_user_id(user_id)
         return data.to_dict()
 
@@ -28,12 +28,12 @@ class ProfileService:
         if missing:
             raise ValueError(f"Missing required fields: {', '.join(missing)}")
 
-        # else:
+        else:
+            contact = json.loads(data["contact"])
 
-        #     contact = data['contact']
-        #     required_contact_fields = ["platform", "name", "url"]
-        #     missing = is_missing(required_contact_fields,contact)
+            for each_contact in contact:
+                required_contact_fields = ["platform", "name", "url"]
+                contact_missing = self.is_missing(required_contact_fields,each_contact)
 
-        #     if missing:
-        #         raise ValueError(f"Missing required fields in contact: {', '.join(missing)}")
-
+                if contact_missing:
+                    raise ValueError(f"Missing required fields in contact: {', '.join(contact_missing)}")

@@ -12,4 +12,5 @@ class Profile(db.Model):
         return {
             "id": self.id,
             "contact": self.contact,
+            "user_id": self.user_id
         }
