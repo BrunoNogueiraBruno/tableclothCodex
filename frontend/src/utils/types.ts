@@ -39,3 +39,12 @@ export type IProfileRes = {
   id:number,
   user_id:number
 }
+
+export type ICategory = {
+  name: string,
+  id: number,
+}
+
+export type ICategoryPayload = {
+  name: string,
+}

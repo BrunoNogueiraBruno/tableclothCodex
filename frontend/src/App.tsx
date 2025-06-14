@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import ProtectedRoute from './components/ProtectedRoute';
 import UsersManagement from './pages/UsersManagement';
 import Profile from './pages/Profile';
+import Categories from './pages/Categories';
 
 function App() {
   return (
@@ -34,6 +35,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/categories"
+          element={
+            <ProtectedRoute>
+              <Categories />
             </ProtectedRoute>
           }
         />

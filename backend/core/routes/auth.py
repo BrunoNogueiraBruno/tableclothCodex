@@ -19,6 +19,8 @@ def login():
         auth_data = Auth(data['identifier'], data['password'])
         user = auth_service.authenticate(auth_data)
 
+        print(user)
+
         auth_service.login_user(user)
 
         return jsonify(user.to_dict()), 200

@@ -34,6 +34,11 @@ function Header() {
         onClick={() => handleNavigate("/users")}
     />,
     <li
+        children="Categories"
+        className="font-semibold cursor-pointer h-12 flex items-center"
+        onClick={() => handleNavigate("/categories")}
+    />,
+    <li
         children="Logout"
         className="cursor-pointer h-12 flex items-center text-[.9em]"
         onClick={handleLogout}
