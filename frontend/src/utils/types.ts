@@ -48,3 +48,20 @@ export type ICategory = {
 export type ICategoryPayload = {
   name: string,
 }
+
+export type IRecipe = {
+  title: string,
+  ingredients: string,
+  instructions: string,
+  category: number,
+  user_id: number,
+  id: number,
+}
+
+export type IRecipePayload = {
+  title: string,
+  ingredients: string,
+  instructions: string,
+  category: number,
+  user_id: number,
+}
