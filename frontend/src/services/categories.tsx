@@ -1,13 +1,13 @@
 import type { MutationFunction } from "@tanstack/react-query";
 import baseApi from ".";
-import type { ICategory, TNewUserForm } from "../utils/types";
+import type { ICategory, ICategoryPayload } from "../utils/types";
 
 export async function listCategories() {
     const res = await baseApi.get("/categories")
     return res.data
 }
 
-export const createCategory: MutationFunction<ICategory,TNewUserForm> = async (body) => {
+export const createCategory: MutationFunction<ICategory,ICategoryPayload> = async (body) => {
   return await baseApi.post("/categories", body);
 }
 

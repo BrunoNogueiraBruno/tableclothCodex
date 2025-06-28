@@ -1,5 +1,4 @@
 import { Card, CircularProgress } from "@mui/material"
-import UserList from "../../components/UserList"
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSnackbar } from "notistack"
 import { useEffect, useState } from "react"
@@ -107,6 +106,7 @@ function Categories() {
             >
                 {onEdit.id === id ? (
                   <Input
+                    type="text"
                     value={onEdit.value}
                     onChange={(e) => setOnEdit({...onEdit, value: e.target.value})}
                     onKeyDown={(event) => {
@@ -131,6 +131,7 @@ function Categories() {
         variant="outlined"
         >
       <Input
+        type="text"
         label="New category"
         value={newCat}
         onChange={(e) => setNewCat(e.target.value)}

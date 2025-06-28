@@ -2,7 +2,6 @@ import { useProtectedContext } from "../../context/ProtectedContext"
 
 function Home() {
   const {user} = useProtectedContext()
-  console.log(user)
 
   return (
     <div className="">
