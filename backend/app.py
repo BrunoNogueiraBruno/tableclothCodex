@@ -20,8 +20,11 @@ def create_app():
 
     db.init_app(app)
 
+    origins_str = os.getenv("REQUESTS_ALLOWED_ORIGIN", "")
+    origins = origins_str.split(",") if origins_str else []
+
     CORS(app, resources={r"/*": {
-        "origins": ["http://localhost:5173"],
+        "origins": origins,
         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
     }}, supports_credentials=True)
