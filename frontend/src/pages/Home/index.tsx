@@ -4,7 +4,6 @@ import { useProtectedContext } from "../../context/ProtectedContext"
 import type { ICategory, IRecipe, IRecipePayload } from "../../utils/types";
 import { createRecipe, listRecipes } from "../../services/recipe";
 import ActionButton from "../../components/ActionButton";
-import { useSnackbar } from "notistack";
 import * as yup from "yup"
 
 import { listCategories } from "../../services/categories";
