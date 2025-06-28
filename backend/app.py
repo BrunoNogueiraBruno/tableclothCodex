@@ -4,19 +4,23 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 from core.extensions import db
 from core.routes import register_blueprints
+from flask_migrate import Migrate
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_app():
     load_dotenv()
 
     app = Flask(__name__)
-    
+
+    migrate = Migrate(app, db)
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     app.config['SESSION_COOKIE_DOMAIN'] = os.getenv('SESSION_COOKIE_DOMAIN', None)
-    app.config['SESSION_COOKIE_SAMESITE'] = 'None'  # Necessário para cross-origin com credenciais
-    app.config['SESSION_COOKIE_SECURE'] = True      # HTTPS obrigatório se usar 'None' no Samesite
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+    app.config['SESSION_COOKIE_SECURE'] = True
 
     db.init_app(app)
 
